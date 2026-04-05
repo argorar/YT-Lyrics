@@ -11,7 +11,7 @@ YT-Lyrics is a Tampermonkey script that seamlessly enhances your YouTube experie
 ## Installation
 
 1. Make sure you have a user script manager installed in your browser, such as [Tampermonkey](https://www.tampermonkey.net/) or [Violentmonkey](https://violentmonkey.github.io/).
-2. Click here to install the script: [YT-Lyrics.user.js](https://github.com/argorar/YT-Lyrics/raw/master/YT-Lyrics.user.js)
+2. Click here to install the script: [YT-Lyrics.user.js](https://raw.githubusercontent.com/argorar/YT-Lyrics/refs/heads/main/YT-Lyrics.user.js)
    *(If you are copying the code manually, add it as a new script in your Tampermonkey dashboard).*
 
 ## How to Use
