@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         YT-Lyrics
-// @version      1.0.0
+// @version      1.0.1
 // @description  Karaoke, Search Explorer Lyrics
 // @author       argorar
 // @match        *://*.youtube.com/*
@@ -345,7 +345,20 @@
         btn.appendChild(mainIconBox);
         btn.appendChild(labelText);
 
-        container.appendChild(btn);
+        const segmentedBtn = container.querySelector('ytd-segmented-like-dislike-button-renderer');
+        if (segmentedBtn) {
+            let targetChild = segmentedBtn;
+            while (targetChild && targetChild.parentNode !== container) {
+                targetChild = targetChild.parentNode;
+            }
+            if (targetChild && targetChild.nextSibling) {
+                container.insertBefore(btn, targetChild.nextSibling);
+            } else {
+                container.appendChild(btn);
+            }
+        } else {
+            container.appendChild(btn);
+        }
 
         btn.addEventListener('click', () => {
             if (!lyricsPanel) injectPanel();
@@ -711,16 +724,22 @@
         });
     }
 
-    let lastUrl = location.href;
-    new MutationObserver(() => {
-        const url = location.href;
-        if (url !== lastUrl) {
-            lastUrl = url;
+    // Escuchar el evento nativo de YouTube que indica que la información del video ya se cargó en el DOM
+    document.addEventListener('yt-page-data-updated', function () {
+        if (lyricsPanel && lyricsPanel.classList.contains('show')) {
+            contentDiv.textContent = "Detecting new track... ⏳";
+            fetchLyrics(null);
+        }
+    });
+
+    // Ocultar el panel y detener el karaoke si el usuario navega fuera de un video (ej. al Home)
+    window.addEventListener('yt-navigate-finish', function () {
+        if (!location.pathname.startsWith('/watch')) {
             if (lyricsPanel && lyricsPanel.classList.contains('show')) {
-                contentDiv.textContent = "Purging for new track... ⏳";
-                setTimeout(() => fetchLyrics(null), 1500);
+                lyricsPanel.classList.remove('show');
+                stopKaraokeLoop();
             }
         }
-    }).observe(document.body, { subtree: true, childList: true });
+    });
 
 })();
