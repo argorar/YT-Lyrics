@@ -2,6 +2,9 @@
 
 YT-Lyrics is a Tampermonkey script that seamlessly enhances your YouTube experience by fetching and displaying song lyrics directly on the page. It connects to the LRCLib API to provide both plain text and synchronized karaoke-style lyrics!
 
+![YT-Lyrics](image.jpeg)
+
+
 ## Features
 
 - **Automated Lyrics Fetching**: Automatically extracts track info from the YouTube page and fetches the matching lyrics.
